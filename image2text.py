@@ -1,11 +1,4 @@
 #!/usr/bin/python
-#
-# Perform optical character recognition, usage:
-#     python3 ./image2text.py train-image-file.png train-text.txt test-image-file.png
-# 
-# Authors: (insert names here)
-# (based on skeleton code by D. Crandall, Oct 2020)
-#
 
 from PIL import Image, ImageDraw, ImageFont
 import sys
@@ -35,22 +28,6 @@ def load_training_letters(fname):
     letter_images = load_letters(fname)
     return {TRAIN_LETTERS[i]: letter_images[i] for i in range(0, len(TRAIN_LETTERS))}
 
-'''
-def extract_data(fname):
-    data = []
-
-    # Using bc.train to train the model thus need to remove the POS from it
-    file = open(fname, 'r')
-    for line in file:
-        # Data with all the words plus its POS tagging
-        raw_data = [word for word in line.split()]
-
-        # Cleaned data to remove the POS from bc.train
-        data += [raw_data[0::2]]
-    print(data)
-    return data
-'''
-
 
 def extract_data(fname):
     file = open(fname, 'r')
@@ -78,24 +55,7 @@ def initial_prob(data):
 
 def transition_prob():
     trans_prob = [[float(0) for _ in range(len(train_letters))] for _ in range(len(train_letters))]
-    '''
-    prev_letter = ""
-    word_end = ""
-    for word_list in data:
-        for word in word_list:
-            for letter in word:
-                if letter in train_letters:
-                    if prev_letter == "":
-                        if word_end != "":
-                            trans_prob[train_letters.index(prev_letter)][train_letters.index(" ")] += 1
-                        prev_letter = letter
-                    else:
-                        trans_prob[train_letters.index(prev_letter)][train_letters.index(letter)] += 1
-                        prev_letter = letter
-                        word_end = letter
-            prev_letter = ""
-    # print(trans_prob)
-    '''
+  
     for i in range(len(data_trans)):
         if data_trans[i] in train_letters and data_trans[i+1] in train_letters:
             trans_prob[train_letters.index(data_trans[i])][train_letters.index(data_trans[i+1])] += 1
@@ -166,14 +126,9 @@ def veterbi(test_letters, init_prob, trans_prob, emm_prob):
     return actual_letter
 
 
-# main program
-#if len(sys.argv) != 4:
-    #raise Exception("Usage: python3 ./image2text.py train-image-file.png train-text.txt test-image-file.png")
-
-#(train_img_fname, train_txt_fname, test_img_fname) = sys.argv[1:]
-(train_img_fname, train_txt_fname, test_img_fname) = 'C:/Users/prati/OneDrive/Desktop/EAI_CSCI_B551/Assignment/Assignment 3/part3/test_images/courier-train.png', \
-                                                     'C:/Users/prati/OneDrive/Desktop/EAI_CSCI_B551/Assignment/Assignment 3/part3/12345.txt',\
-                                                     'C:/Users/prati/OneDrive/Desktop/EAI_CSCI_B551/Assignment/Assignment 3/part3/test_images/test-2-0.png'
+(train_img_fname, train_txt_fname, test_img_fname) = './test_images/courier-train.png', \
+                                                     './12345.txt',\
+                                                     './test_images/test-2-0.png'
 train_letters_img = load_training_letters(train_img_fname)
 test_letters = load_letters(test_img_fname)
 
