@@ -1,11 +1,11 @@
 The program is expected to output the text given in the image. The image can be noisy and some assumptions regarding noise were to be made.
-##Emission Probability
+## Emission Probability
 Emission probability was calculated by comparing each and every pixel and checking number of pixels where there was "" in trainining data and in test letters and checking number of pixels where the pixel was " " in both train and test letters. Then, we decided to give more priority to former and after trying some possible combinations of values, we finally finalized to choose 0.9 where "" matched and 0.1 where "blank" matched. We stored all values in a dictionary and stored it using index values as keys. The count was calculated this way and then we calculated probability using modified laplace smoothing. I had to add 1 in numerator because some values were remaining zero.
 
-##Transition Probability
+## Transition Probability
 Transition Probability was calcualted by iterating over the whole text string starting from the 1st letter as we would be checking the letter before that to compute the count of the current letter occuring after the previous letter. From this, we calculated the probability using Laplace smoothing.
 
-##Initial Probability
+## Initial Probability
 Initial count was calculated by taking the count of the first letter from each sentence from "bc.train" file. From this, the initial probability was calculated by Laplace smoothing.
 
 ## Simple Bayes approach:
